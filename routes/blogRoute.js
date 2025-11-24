@@ -1,13 +1,33 @@
-import express from "express"
-import uploads from "../middleware/fileUpload.js";
-import blogController from "../controller/blogController.js";
+import express from "express";
+
+import {
+   addBlog,
+  getBlogs,
+  getBlog,
+  updateBlog,
+  deleteBlog
+} from "../controller/blogController.js";
+
+import uploads from "../middleware/fileUpload.js"
+
+
+
 
 const router = express.Router();
+router.get("/", (req, res) => {
+  res.render("add");
+});
 
-router.post("/create",blogController.createBlog);
-router.post("/create",uploads.single("image"),blogController.createBlog);
+router.get("/add", (req, res) => {
+  res.render("add");
+});
+router.post("/add", uploads.single("image"), addBlog);
 
-router.get("/getblogs",blogController.getBlogs);
-router.get("/getblog/:id",blogController.getBlog);
+
+router.get("/get", getBlogs);
+
+router.get("/edit/:id", getBlog);
+router.post("/edit/:id", uploads.single("image"), updateBlog);
+router.get("/delete/:id", deleteBlog);
 
 export default router;
