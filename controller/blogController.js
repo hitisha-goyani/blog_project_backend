@@ -67,10 +67,10 @@ const getBlog = async (req, res, next) => {
     }
 
     // 👇 send `blog` to EJS
-    res.render("edit", { blog });
+    res.render("edit", {  Blog });
 
   } catch (error) {
-    next(new httpError(error.message));
+    next(new httpError(error.message)); 
   }
 };
 const updateBlog = async (req,res,next)=>{
