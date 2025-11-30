@@ -1,3 +1,5 @@
+// 
+
 import multer from "multer";
 import { CloudinaryStorage } from "multer-storage-cloudinary";
 import cloudinary from "../config/cloudinary.js";
@@ -7,13 +9,14 @@ const storage = new CloudinaryStorage({
   params: async (req, file) => ({
     folder: "upload",
     allowed_formats: ["jpg", "jpeg", "png"],
-    transformation: [{ height: 200, width: 200, crop: "limit" }]
+    resource_type: "image",
+    quality: "auto:best",       // keep original quality
   }),
 });
 
 const uploads = multer({
   storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB recommended
   fileFilter: function (req, file, cb) {
     const allowed = ["image/jpeg", "image/jpg", "image/png"];
     if (!allowed.includes(file.mimetype)) {
