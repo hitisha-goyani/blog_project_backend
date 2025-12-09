@@ -1,5 +1,5 @@
-import httpError from "../middleware/errorHanding";
-import User from "../model/user"
+import httpError from "../middleware/errorHanding.js";
+import User from "../model/user.js"
 
 
 

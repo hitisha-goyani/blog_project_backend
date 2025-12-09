@@ -133,4 +133,4 @@ const deleteBlog = async (req,res,next)=>{
   }
 
 }
-export { addBlog, getBlogs, getBlog, updateBlog, deleteBlog };
+export default { addBlog, getBlogs, getBlog, updateBlog, deleteBlog };

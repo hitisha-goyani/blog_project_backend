@@ -4,24 +4,13 @@ import httpError from "./middleware/errorHanding.js";
 import blogRoutes from "./routes/blogRoute.js";
 import authRoutes from "./routes/authRoutes.js";  
 
-
-
-
-
 const app = express();
 
+app.use(express.json())
 
-
-
-
-app.use("/", authRoutes);   
+app.use("/user", authRoutes);   
 
 app.use("/blog", blogRoutes);
-
-
-app.get("/", (req, res) => {
-  res.redirect("/blog/get");
-});
 
 
 app.use((req, res, next) => {
