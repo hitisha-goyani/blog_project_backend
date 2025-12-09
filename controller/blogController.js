@@ -10,23 +10,21 @@ const  addBlog= async (req, res, next) => {
       title,
       content,
       author,
-      image: req.file ? req.file.path : null,
     };
 
     const Blog = new blog(newBlogData);
 
     await Blog.save();
 
-    // if (!Blog) {
-    //   return next(new httpError("Blog not added", 400));
-    // }
+    if (!Blog) {
+      return next(new httpError("Blog not added", 400));
+    }
 
-    // res.status(201).json({
-    //   message: "Blog added successfully",
-    //   Blog,
-    // });
+    res.status(201).json({
+      message: "Blog added successfully",
+      Blog,
+    });
 
-    res.redirect("/blog/get");
 
   } catch (error) {
     next(new httpError(error.message));
@@ -41,13 +39,13 @@ const getBlogs = async(req,res,next)=>{
 
         const blogs = await blog.find({})
 
-        // if(!blogs){
-        //     return next(new httpError("blog can't find",400))
-        // }
+        if(!blogs){
+            return next(new httpError("blog can't find",400))
+        }
 
-        // res.status(200).json({message:"blog info",blogs})
+        res.status(200).json({message:"blog info",blogs})
 
-        res.render("index",{blogs});
+     
 
     }catch(error){
         next(new httpError(error.message))
@@ -66,17 +64,15 @@ const getBlog = async (req, res, next) => {
       return next(new httpError("Blog not available", 400));
     }
 
-    // 👇 send `blog` to EJS
-    res.render("edit", {  Blog });
-
+       res.status(200).json({message:"blog data found",Blog})
   } catch (error) {
     next(new httpError(error.message)); 
   }
 };
+
+
 const updateBlog = async (req,res,next)=>{
 try{
-
-  
   const id = req.params.id
   const existingBlog = await blog.findById(id);
 
@@ -110,9 +106,9 @@ if(req.file){
 
 await existingBlog.save();
 
-// res.status(200).json({message:"blog updated suceesfully..",blog:existingBlog})
+res.status(200).json({message:"blog updated suceesfully..",blog:existingBlog})
 
-res.redirect("/blog/get");
+
 
 }catch(error){
  next(new httpError(error.message))
@@ -125,13 +121,13 @@ const deleteBlog = async (req,res,next)=>{
   try{
     const deleteBlog = await blog.findByIdAndDelete(req.params.id);
 
-  // if(!deleteBlog){
-  //   return next (new httpError("not awailable this id",400))
-  // }
+  if(!deleteBlog){
+    return next (new httpError("not awailable this id",400))
+  }
 
-  // res.status(200).json({message:"delete sucessfully..."})
+  res.status(200).json({message:"delete sucessfully..."})
 
-  res.redirect("/blog/get")
+ 
   }catch(error){
       next (new httpError(error.message))
   }
